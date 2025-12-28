@@ -51,3 +51,35 @@ SigninLogs
     | where MFAStatus == "Failed"
 ) on User
 | project User, Location, FailedAttempts, FirstFailure, LastSuccess, MFAStatus
+```
+---
+
+## Explanation
+- **SigninLogs**: collects Azure AD login events.  
+- **ResultType != 0**: counts failed login attempt
+- This highlights accounts with failed login bursts, successful logins, and MFA bypass risk
+
+---
+
+## Investigation Workflow
+1. **Validate user context**: Confirm role, business activity, and expected locations
+2. **Check IP and geolocation**: Compare with historical login patterns and known VPN usage in logs.
+3. **Endpoint correlation**: Review Defender for Endpoint telemetry for unusual device behavior
+4. **Risk assessment**: Determine likelihood of compromise and assign risk score.
+5. **Documentation**: Create incident record in ServiceNOW including alert, context and mitigation plan
+
+---
+
+## Response Actions
+- For password reset and revoke Azure tokens for affected account(s)
+- Enforce or review MFA policies and Conditional Access rules
+- Monitor subsequent login attempts and endpoint activity
+- Conduct user education if relevant (phishing awareness, MFA usage)
+---
+
+## Tuning 
+- Exclude trusted locations and corporate VPN IPs
+- Adjust thresholds per organizational login patterns
+- Incorporate UEBA signals for historical baseline comparisons
+- Tune detection rules to reduce false positives while maintaining sensitivity. 
+---

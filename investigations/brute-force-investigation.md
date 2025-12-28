@@ -1,4 +1,3 @@
-```md
 # Investigation: Brute Force Login Attempts
 
 ## Objective
